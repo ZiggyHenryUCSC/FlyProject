@@ -225,10 +225,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 831924f9ed06d1a44afa42585fea35fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlyFollower
-  moveSmoothness: 0.15
-  scaleSmoothness: 0.05
+  moveSmoothness: 0.2
+  scaleSmoothness: 0.15
   scrollRange: {x: 0.1, y: 5}
-  scrollSteps: 15
+  scrollSteps: 20
   sprites:
   - {fileID: 905024258411163469, guid: 4d5eb212d4a2fd445a13574955affb64, type: 3}
   - {fileID: -3809456121460198252, guid: 06ba7c67536422141920c6f9586bd16b, type: 3}
