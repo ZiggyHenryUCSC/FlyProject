@@ -20,12 +20,21 @@ public class FlyFollower : MonoBehaviour
 
     Vector3 targetScale;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    HudManager hudManager;
+
     void Start()
     {
         Cursor.visible = false;
 
         targetScale = gameObject.transform.localScale;
         sp = GetComponent<SpriteRenderer>();
+
+        //hud manager setup
+        hudManager = FindAnyObjectByType<HudManager>();
+
+        hudManager.UpdateSpeed(moveSmoothness);
+        hudManager.UpdateScale(scaleSmoothness);
     }
 
     // Update is called once per frame
@@ -83,5 +92,39 @@ public class FlyFollower : MonoBehaviour
                 particles.Play();
             }
         }
+
+        //hud
+        if (Keyboard.current.hKey.wasPressedThisFrame) {
+            hudManager.ToggleCanvas();
+        }
+
+        //hud smoothing
+        if (Keyboard.current.uKey.wasPressedThisFrame) {
+            changeMoveSmoothness(-0.02f);
+        }
+        else if (Keyboard.current.iKey.wasPressedThisFrame) {
+            changeMoveSmoothness(0.02f);
+        }
+
+        if (Keyboard.current.jKey.wasPressedThisFrame) {
+            changeScaleSmoothness(-0.02f);
+        }
+        else if (Keyboard.current.kKey.wasPressedThisFrame) {
+            changeScaleSmoothness(0.02f);
+        }
+    }
+
+    void changeMoveSmoothness(float delta) {
+        moveSmoothness += delta;
+        moveSmoothness = Mathf.Clamp(moveSmoothness, 0.01f, 1f);
+
+        hudManager.UpdateSpeed(moveSmoothness);
+    }
+
+    void changeScaleSmoothness(float delta) {
+        scaleSmoothness += delta;
+        scaleSmoothness = Mathf.Clamp(scaleSmoothness, 0.01f, 1f);
+
+        hudManager.UpdateScale(scaleSmoothness);
     }
 }
