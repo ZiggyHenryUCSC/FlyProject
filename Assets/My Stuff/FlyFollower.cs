@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,9 @@ public class FlyFollower : MonoBehaviour
     public int scrollSteps = 5;
 
     public Sprite[] sprites; 
+
+    public Material GreyscaleMat;
+    Material originalMat;
     int spriteIndex = 0;
 
     Vector2 prevMousePosition;
@@ -22,6 +26,7 @@ public class FlyFollower : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     HudManager hudManager;
+    TMPro.TMP_InputField colorInput;
 
     void Start()
     {
@@ -32,9 +37,17 @@ public class FlyFollower : MonoBehaviour
 
         //hud manager setup
         hudManager = FindAnyObjectByType<HudManager>();
+        colorInput = hudManager.colorInput;
 
         hudManager.UpdateSpeed(moveSmoothness);
         hudManager.UpdateScale(scaleSmoothness);
+
+        originalMat = sp.material;
+
+        // Texture2D loadedTexture = 
+        //     LoadPNG("C:\\Users\\Student\\Documents\\GitHub\\StarterPlatformer\\assets\\tilemap_packed.png");
+        
+        // sp.sprite = Sprite.Create(loadedTexture, new Rect(0, 0, loadedTexture.width, loadedTexture.height), new Vector2(0.5f, 0.5f));
     }
 
     // Update is called once per frame
@@ -65,6 +78,11 @@ public class FlyFollower : MonoBehaviour
         gameObject.transform.localScale = 
             Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleSmoothness);   
 
+        //ALL INPUTS THAT YOU WANT PAUSED WHILE TYPING GO BELOW!!!
+        if (colorInput.isFocused) {
+            return;
+        }
+
         //switch sprite
         if (Keyboard.current.aKey.wasPressedThisFrame) {
             if (spriteIndex < sprites.Length - 1) {
@@ -90,6 +108,16 @@ public class FlyFollower : MonoBehaviour
             }
             else {
                 particles.Play();
+            }
+        }
+
+        //greyscale
+        if (Keyboard.current.bKey.wasPressedThisFrame) {
+            if (sp.material == originalMat) {
+                sp.material = GreyscaleMat;
+            }
+            else {
+                sp.material = originalMat;
             }
         }
 
@@ -126,5 +154,17 @@ public class FlyFollower : MonoBehaviour
         scaleSmoothness = Mathf.Clamp(scaleSmoothness, 0.01f, 1f);
 
         hudManager.UpdateScale(scaleSmoothness);
+    }
+
+    public static Texture2D LoadPNG(string filePath) {
+        Texture2D tex = null;
+        byte[] fileData;
+
+        if (File.Exists(filePath)) 	{
+            fileData = File.ReadAllBytes(filePath);
+            tex = new Texture2D(2, 2);
+            tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
+        }
+        return tex;
     }
 }
