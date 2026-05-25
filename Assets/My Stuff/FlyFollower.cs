@@ -88,12 +88,18 @@ public class FlyFollower : MonoBehaviour
             if (spriteIndex < sprites.Length - 1) {
                 spriteIndex++;
             }
+            else {
+                spriteIndex = 0;
+            }
 
             sp.sprite = sprites[spriteIndex];
         }
         else if (Keyboard.current.dKey.wasPressedThisFrame) {
             if (spriteIndex > 0) {
                 spriteIndex--;
+            }
+            else {
+                spriteIndex = sprites.Length - 1;
             }
 
             sp.sprite = sprites[spriteIndex];
@@ -108,6 +114,26 @@ public class FlyFollower : MonoBehaviour
             }
             else {
                 particles.Play();
+            }
+        }
+
+        //particles on/off
+        if (Keyboard.current.xKey.wasPressedThisFrame) {
+            if (particles.isPlaying) {
+                particles.Stop();
+            }
+            else {
+                particles.Play();
+            }
+        }
+
+        //hide only sprite
+        if (Keyboard.current.wKey.wasPressedThisFrame) {
+            if (sp.sprite == null) {
+                sp.sprite = sprites[spriteIndex];
+            }
+            else {
+                sp.sprite = null;
             }
         }
 

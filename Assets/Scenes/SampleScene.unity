@@ -195,9 +195,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_UseReflectionProbes: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -336,9 +336,10 @@ MonoBehaviour:
   scrollRange: {x: 0.1, y: 5}
   scrollSteps: 20
   sprites:
-  - {fileID: -8594037304555764557, guid: 675dcb824be50154697944c1ef51203c, type: 3}
+  - {fileID: 905024258411163469, guid: 4d5eb212d4a2fd445a13574955affb64, type: 3}
   - {fileID: -3809456121460198252, guid: 06ba7c67536422141920c6f9586bd16b, type: 3}
   - {fileID: -4117433167197658869, guid: 1fe1d4d7aa8acb04c82d8fcafec3df05, type: 3}
+  - {fileID: 0}
   GreyscaleMat: {fileID: 2100000, guid: 16e9c29ac9137704ea4caf6bb1ce45a6, type: 2}
   particles: {fileID: 377228146}
 --- !u!199 &377228145
@@ -6454,8 +6455,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Controls: \n\tMove - mouse\n\tHide - s\n\tScale - scroll\n\tB&W - b\n\tOpen/Close
-    HUD - h\n\n"
+  m_text: "Controls: \n\tMove - mouse\n\tHide all - s\n\tHide sprite - w\n\tHide
+    particles - x\n\tScale - scroll\n\tB&W - b\n\tOpen/Close HUD - h\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
