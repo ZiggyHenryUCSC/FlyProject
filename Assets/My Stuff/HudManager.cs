@@ -7,16 +7,31 @@ public class HudManager : MonoBehaviour
     public Canvas canvas;
     [SerializeField] TextMeshProUGUI speedText;
     [SerializeField] TextMeshProUGUI scaleText;
-    public TMP_InputField colorInput;
+
+    public FlexibleColorPicker bkgColorInput;
+    public FlexibleColorPicker spColorInput;
+    public FlexibleColorPicker pColorInput;
 
     [SerializeField] SpriteRenderer bkgSprite;
+    ParticleSystem particles;
+
+    Material spriteMat;
+    SpriteRenderer sprite;
 
     public string input;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        //has to be in start because flyfollower needs to run its awake first to set up the sprite renderer and material references
+        FlyFollower flyFollower = FindAnyObjectByType<FlyFollower>();
+        sprite = flyFollower.sp;
+        spriteMat = sprite.material;
+        particles = flyFollower.particles;
+
+        bkgColorInput.onColorChange.AddListener(delegate { bkgColorChanged(); });
+        spColorInput.onColorChange.AddListener(delegate { spColorChanged(); });
+        pColorInput.onColorChange.AddListener(delegate { pColorChanged(); });
     }
 
     // Update is called once per frame
@@ -38,18 +53,16 @@ public class HudManager : MonoBehaviour
         scaleText.text = "Scale Speed (J and K keys): " + scale.ToString("F2");
     }
 
-    public void colorTextChanged() {
-        input = colorInput.text;
-        if (input.Length == 0 || input.Length % 6 != 0) {
-            return;
-        }
+    public void bkgColorChanged() {
+        bkgSprite.color = bkgColorInput.color;
+    }
 
-        input = "#" + colorInput.text; // Add the '#' character to the beginning of the input
+    public void spColorChanged() {
+        spriteMat.SetColor("_TintColor", spColorInput.color);
+    }
 
-        Color newColor;
-
-        if (ColorUtility.TryParseHtmlString(input, out newColor)) {
-            bkgSprite.color = newColor;
-        }
+    public void pColorChanged() {
+        var main = particles.main;
+        main.startColor = pColorInput.color;
     }
 }

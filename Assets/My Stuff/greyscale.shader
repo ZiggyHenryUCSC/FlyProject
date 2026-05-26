@@ -3,6 +3,7 @@ Shader "Custom/GreyscaleShader"
     Properties
     {
         _MainTex("Texture", 2D) = "white" {}
+        _TintColor ("Tint Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -32,6 +33,8 @@ Shader "Custom/GreyscaleShader"
                 sampler2D _MainTex;
                 float4 _MainTex_ST;
 
+                fixed4 _TintColor;
+
                 v2f vert(appdata v) {
                     v2f o;
                     o.vertex = UnityObjectToClipPos(v.vertex);
@@ -43,7 +46,7 @@ Shader "Custom/GreyscaleShader"
                 {
                     fixed4 col = tex2D(_MainTex, i.uv);
                     float grey = dot(col.rgb, float3(0.299, 0.587, 0.114));
-                    return fixed4(grey, grey, grey, col.a);
+                    return fixed4(_TintColor.r * grey, _TintColor.g * grey, _TintColor.b * grey, col.a);
                 }
                 ENDCG
         }        

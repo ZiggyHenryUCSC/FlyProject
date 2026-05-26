@@ -1,6 +1,7 @@
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class FlyFollower : MonoBehaviour
 {
@@ -14,21 +15,24 @@ public class FlyFollower : MonoBehaviour
 
     public Material GreyscaleMat;
     Material originalMat;
+
+    [SerializeField] bool defaultGrey = true;
+
     int spriteIndex = 0;
 
     Vector2 prevMousePosition;
     Vector3 targetMousePos;
 
-    SpriteRenderer sp;
+    public SpriteRenderer sp;
     public ParticleSystem particles;
 
     Vector3 targetScale;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     HudManager hudManager;
-    TMPro.TMP_InputField colorInput;
+    InputField[] hexInputs;
 
-    void Start()
+    void Awake()
     {
         Cursor.visible = false;
 
@@ -37,12 +41,21 @@ public class FlyFollower : MonoBehaviour
 
         //hud manager setup
         hudManager = FindAnyObjectByType<HudManager>();
-        colorInput = hudManager.colorInput;
+        hexInputs = new InputField[] {
+            hudManager.bkgColorInput.GetComponentInChildren<InputField>(),
+            hudManager.spColorInput.GetComponentInChildren<InputField>()
+        };
 
         hudManager.UpdateSpeed(moveSmoothness);
         hudManager.UpdateScale(scaleSmoothness);
 
         originalMat = sp.material;
+
+        //default to grey
+        if (defaultGrey)
+        {
+            sp.material = GreyscaleMat;
+        }
 
         // Texture2D loadedTexture = 
         //     LoadPNG("C:\\Users\\Student\\Documents\\GitHub\\StarterPlatformer\\assets\\tilemap_packed.png");
@@ -53,6 +66,22 @@ public class FlyFollower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //toggle cursor visibility
+        if (Keyboard.current.escapeKey.wasPressedThisFrame) {
+            if (Cursor.visible) {
+                Cursor.visible = false;
+            }
+            else {
+                Cursor.visible = true;
+            }
+        }
+
+        //IMPORTANT: PAUSE INPUT WHILE CURSOR IS VISISBLE
+        if (Cursor.visible) {
+            return;
+        }
+        //ALL INPUT BELOW THIS
+
         //movement
         Vector2 rawMousePosition = Mouse.current.position.ReadValue();
         if (prevMousePosition != rawMousePosition) {
@@ -79,7 +108,7 @@ public class FlyFollower : MonoBehaviour
             Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleSmoothness);   
 
         //ALL INPUTS THAT YOU WANT PAUSED WHILE TYPING GO BELOW!!!
-        if (colorInput.isFocused) {
+        if (hexInputs[0].isFocused || hexInputs[1].isFocused) {
             return;
         }
 
