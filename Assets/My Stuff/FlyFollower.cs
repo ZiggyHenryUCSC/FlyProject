@@ -27,7 +27,6 @@ public class FlyFollower : MonoBehaviour
     public ParticleSystem particles;
 
     Vector3 targetScale;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     HudManager hudManager;
     InputField[] hexInputs;
@@ -55,6 +54,7 @@ public class FlyFollower : MonoBehaviour
         if (defaultGrey)
         {
             sp.material = GreyscaleMat;
+            hudManager.spriteMat = sp.material;
         }
 
         // Texture2D loadedTexture = 
@@ -170,6 +170,8 @@ public class FlyFollower : MonoBehaviour
         if (Keyboard.current.bKey.wasPressedThisFrame) {
             if (sp.material == originalMat) {
                 sp.material = GreyscaleMat;
+
+                hudManager.spriteMat = sp.material;    
             }
             else {
                 sp.material = originalMat;

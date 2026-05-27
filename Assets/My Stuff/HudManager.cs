@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class HudManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class HudManager : MonoBehaviour
     [SerializeField] SpriteRenderer bkgSprite;
     ParticleSystem particles;
 
-    Material spriteMat;
+    [NonSerialized] public Material spriteMat;
     SpriteRenderer sprite;
 
     public string input;
@@ -26,7 +27,6 @@ public class HudManager : MonoBehaviour
         //has to be in start because flyfollower needs to run its awake first to set up the sprite renderer and material references
         FlyFollower flyFollower = FindAnyObjectByType<FlyFollower>();
         sprite = flyFollower.sp;
-        spriteMat = sprite.material;
         particles = flyFollower.particles;
 
         bkgColorInput.onColorChange.AddListener(delegate { bkgColorChanged(); });
