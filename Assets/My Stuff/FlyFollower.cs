@@ -171,7 +171,8 @@ public class FlyFollower : MonoBehaviour
             if (sp.material == originalMat) {
                 sp.material = GreyscaleMat;
 
-                hudManager.spriteMat = sp.material;    
+                hudManager.spriteMat = sp.material;
+                hudManager.spColorChanged(); //new material, color got reset
             }
             else {
                 sp.material = originalMat;
